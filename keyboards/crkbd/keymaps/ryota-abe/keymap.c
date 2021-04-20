@@ -19,45 +19,51 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include "keymap_jp.h"
 
-#define KC_LOWER LT(1, KC_LANG2)
-#define KC_RAISE LT(2, KC_LANG1)
-#define KC_SHIFT OSM(MOD_LSFT)
+#define MO1EISU LT(1, KC_LANG2)
+#define MO2KANA LT(2, KC_LANG1)
+#define OSM_SFT OSM(MOD_LSFT)
+#define CTRL_BS LCTL_T(KC_BSPC)
+
+enum my_keycodes {
+    ZEN_HAN = SAFE_RANGE,
+    NEXTTSK,
+    PREVTSK
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_MINS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+      CTRL_BS,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_SHIFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
+      OSM_SFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,  KC_SPC,KC_LOWER,   KC_RAISE,  KC_ENT, KC_RALT
+                                          KC_LGUI,  KC_SPC, MO1EISU,    MO2KANA,  KC_ENT, KC_RALT
                                       //`--------------------------'  `--------------------------'
-
   ),
 
   [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, XXXXXXX,
+       KC_TAB, KC_VOLU, KC_BRIU, XXXXXXX, KC_WH_U, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, KC_WH_L, KC_WH_U, KC_WH_R,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_MS_U, KC_BTN2,
+      _______, KC_VOLD, KC_BRID, KC_WH_L, KC_WH_D, KC_WH_R,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_MS_U, KC_BTN2,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_SHIFT, XXXXXXX, XXXXXXX, XXXXXXX, KC_WH_D, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_ACL0,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,  KC_SPC, _______,      MO(3), KC_BTN1, KC_RALT
+                                          _______, _______, _______,      MO(3),  KC_ENT, KC_BTN1
                                       //`--------------------------'  `--------------------------'
   ),
 
   [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, XXXXXXX,
+       KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_MINS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_PLUS,  KC_EQL, KC_LBRC, KC_RBRC, KC_PIPE,  KC_GRV,
+      _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_PLUS,  KC_EQL, KC_LBRC, KC_RBRC, KC_PIPE,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_SHIFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, KC_LCBR, KC_RCBR, KC_BSLS, KC_TILD,
+      _______,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,                      KC_COMM,  KC_DOT, KC_LCBR, KC_RCBR, KC_BSLS, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, KC_BSPC,   MO(3),    _______,  KC_ENT, KC_RALT
+                                          _______, _______,   MO(3),    _______,  KC_ENT, KC_RALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -65,47 +71,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX,  KC_F12,
+      _______, XXXXXXX, XXXXXXX, PREVTSK, NEXTTSK, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_SHIFT, XXXXXXX,  KC_DEL, XXXXXXX,  KC_INS, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR,
+      _______, XXXXXXX,  KC_DEL, XXXXXXX,  KC_INS, XXXXXXX,                      ZEN_HAN, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,  KC_SPC, _______,    _______,  KC_ENT, KC_RALT
+                                          _______, _______, _______,    _______,  KC_ENT, KC_RALT
                                       //`--------------------------'  `--------------------------'
   )
 };
 
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_master) {
-    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+  if (is_master) {
+    return OLED_ROTATION_270;
   }
   return rotation;
 }
 
-#define L_BASE 0
-#define L_LOWER 2
-#define L_RAISE 4
-#define L_ADJUST 8
-
 void oled_render_layer_state(void) {
-    oled_write_P(PSTR("Layer: "), false);
-    switch (layer_state) {
-        case L_BASE:
-            oled_write_ln_P(PSTR("Default"), false);
-            break;
-        case L_LOWER:
-            oled_write_ln_P(PSTR("Lower"), false);
-            break;
-        case L_RAISE:
-            oled_write_ln_P(PSTR("Raise"), false);
-            break;
-        case L_ADJUST:
-        case L_ADJUST|L_LOWER:
-        case L_ADJUST|L_RAISE:
-        case L_ADJUST|L_LOWER|L_RAISE:
-            oled_write_ln_P(PSTR("Adjust"), false);
-            break;
-    }
+    uint8_t modifiers = get_mods() | get_oneshot_mods();
+    oled_write_P(PSTR("-----"), false);
+    oled_write_P(PSTR("BASE "), layer_state_is(0));
+    oled_write_P(PSTR("LOWER"), layer_state_is(1));
+    oled_write_P(PSTR("RAISE"), layer_state_is(2));
+    oled_write_P(PSTR("ADJST"), layer_state_is(3));
+    oled_write_P(PSTR("-----"), false);
+    oled_write_P(PSTR("Mods "), false);
+    oled_write_P(PSTR(" "), false);
+    oled_write_P(PSTR("S"), (modifiers & MOD_MASK_SHIFT));
+    oled_write_P(PSTR("C"), (modifiers & MOD_MASK_CTRL));
+    oled_write_P(PSTR("A"), (modifiers & MOD_MASK_ALT));
+    oled_write_P(PSTR("G"), (modifiers & MOD_MASK_GUI));
+    oled_write_P(PSTR("-----"), false);
 }
 
 
@@ -128,7 +125,7 @@ void set_keylog(uint16_t keycode, keyrecord_t *record) {
   }
 
   // update keylog
-  snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c",
+  snprintf(keylog_str, sizeof(keylog_str), "%dx%d  k%4x%c    ",
            record->event.key.row, record->event.key.col,
            keycode, name);
 }
@@ -171,19 +168,27 @@ void oled_task_user(void) {
 }
 #endif // OLED_DRIVER_ENABLE
 
+bool shift_physically_pressing;
+
 void change_keycode_to(uint16_t keycode, keyrecord_t *record) {
-    bool mod_shift = (get_mods() & MOD_MASK_SHIFT) || (get_oneshot_mods() & MOD_MASK_SHIFT);
+    bool shift_locked = get_oneshot_locked_mods() & MOD_MASK_SHIFT;
+    bool oneshot_shift = get_oneshot_mods() & MOD_MASK_SHIFT;
     bool shift_needed = keycode & QK_LSFT;
-    bool add_shift = shift_needed && !mod_shift;
-    bool remove_shift = !shift_needed && mod_shift;
+    bool add_shift = shift_needed && !(shift_physically_pressing || shift_locked || oneshot_shift);
+    bool del_shift = !shift_needed && (shift_physically_pressing || shift_locked || oneshot_shift);
 
     if (record->event.pressed) {
         if (add_shift) { register_code(KC_LSFT); }
-        if (remove_shift) { unregister_code(KC_LSFT); }
+        if (del_shift) {
+            del_mods(MOD_MASK_SHIFT);
+            del_oneshot_mods(MOD_MASK_SHIFT);
+        }
         register_code(keycode);
         unregister_code(keycode);
         if (add_shift) { unregister_code(KC_LSFT); }
-        if (remove_shift) { register_code(KC_LSFT); }
+        if (del_shift) {
+            if (shift_physically_pressing || shift_locked) { register_code(KC_LSFT); }
+        }
     }
 }
 
@@ -211,6 +216,36 @@ bool jp_to_us(uint16_t keycode, keyrecord_t *record) {
         case KC_DQUO: change_keycode_to(JP_DQUO, record); return true;
         case KC_GRV:  change_keycode_to(JP_GRV,  record); return true;
         case KC_TILD: change_keycode_to(JP_TILD, record); return true;
+        case ZEN_HAN: change_keycode_to(JP_ZKHK, record); return true;
+    }
+    return false;
+}
+
+bool process_task_switching(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case NEXTTSK:
+            if (record->event.pressed) {
+                register_mods(MOD_MASK_ALT);
+                register_code(KC_TAB);
+            } else {
+                unregister_code(KC_TAB);
+            }
+            return true;
+        case PREVTSK:
+            if (record->event.pressed) {
+                register_mods(MOD_MASK_ALT);
+                register_mods(MOD_MASK_SHIFT);
+                register_code(KC_TAB);
+            } else {
+                unregister_code(KC_TAB);
+                unregister_mods(MOD_MASK_SHIFT);
+            }
+            return true;
+        case MO(3):
+            if (!record->event.pressed) {
+                unregister_mods(get_mods());
+            }
+            break;
     }
     return false;
 }
@@ -222,6 +257,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     if (jp_to_us(keycode, record)) {
         return false;
+    }
+
+    if (process_task_switching(keycode, record)) {
+        return false;
+    }
+
+    switch (keycode) {
+        case KC_ESC:
+        case KC_BSPC:
+        case CTRL_BS:
+            if (get_oneshot_locked_mods()) {
+                clear_oneshot_mods();
+                clear_oneshot_locked_mods();
+                unregister_mods(get_mods());
+            }
+            break;
+        case OSM_SFT:
+            shift_physically_pressing = record->event.pressed;
+            break;
     }
 
     return true;
