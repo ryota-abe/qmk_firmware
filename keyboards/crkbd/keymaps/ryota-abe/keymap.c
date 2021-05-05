@@ -19,15 +19,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include "keymap_jp.h"
 
-#define MO1EISU LT(1, KC_LANG2)
-#define MO2KANA LT(2, KC_LANG1)
 #define OSM_SFT OSM(MOD_LSFT)
+#define ALT_ESC RALT_T(KC_ESC)
 #define CTRL_BS LCTL_T(KC_BSPC)
+#define MO1_BS LT(1, KC_BSPC)
+#define MO2_OSS MO(2)
+#define MO3_EISU LT(3, KC_LANG2)
+#define MO3_KANA LT(3, KC_LANG1)
+#define PREVTAB C(KC_PGUP)
+#define NEXTTAB C(KC_PGDN)
 
 enum my_keycodes {
     ZEN_HAN = SAFE_RANGE,
     NEXTTSK,
-    PREVTSK
+    PREVTSK,
+    ONE_SHOT_SHIFT
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -37,21 +43,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       CTRL_BS,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      OSM_SFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
+      OSM_SFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_UNDS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,  KC_SPC, MO1EISU,    MO2KANA,  KC_ENT, KC_RALT
+                                          KC_LGUI,  KC_SPC,  MO1_BS,    MO2_OSS,  KC_ENT, ALT_ESC
                                       //`--------------------------'  `--------------------------'
   ),
 
   [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, KC_VOLU, KC_BRIU, XXXXXXX, KC_WH_U, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+       KC_TAB, KC_VOLU, KC_BRIU, XXXXXXX, KC_WH_U, XXXXXXX,                      DM_PLY1, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DM_REC1,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_VOLD, KC_BRID, KC_WH_L, KC_WH_D, KC_WH_R,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_MS_U, KC_BTN2,
+      _______, KC_VOLD, KC_BRID, KC_WH_L, KC_WH_D, KC_WH_R,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_MS_U, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_ACL0,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R,
+      _______, XXXXXXX, XXXXXXX, KC_ACL0, KC_BTN1, KC_BTN2,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,      MO(3),  KC_ENT, KC_BTN1
+                                          _______, _______, _______,   MO3_KANA, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -63,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,                      KC_COMM,  KC_DOT, KC_LCBR, KC_RCBR, KC_BSLS, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______,   MO(3),    _______,  KC_ENT, KC_RALT
+                                          _______, _______,MO3_EISU,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -71,11 +77,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, PREVTSK, NEXTTSK, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX,  KC_F12,
+      _______, XXXXXXX, PREVTAB, PREVTSK, NEXTTSK, NEXTTAB,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX,  KC_DEL, XXXXXXX,  KC_INS, XXXXXXX,                      ZEN_HAN, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______,  KC_ENT, KC_RALT
+                                          _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   )
 };
@@ -241,7 +247,8 @@ bool process_task_switching(uint16_t keycode, keyrecord_t *record) {
                 unregister_mods(MOD_MASK_SHIFT);
             }
             return true;
-        case MO(3):
+        case MO3_EISU:
+        case MO3_KANA:
             if (!record->event.pressed) {
                 unregister_mods(get_mods());
             }
@@ -250,8 +257,13 @@ bool process_task_switching(uint16_t keycode, keyrecord_t *record) {
     return false;
 }
 
+uint16_t last_pressed_keycode;
+uint16_t last_pressed_timer;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
+        last_pressed_keycode = keycode;
+        last_pressed_timer = timer_read();
         set_keylog(keycode, record);
     }
 
@@ -266,6 +278,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case KC_ESC:
         case KC_BSPC:
+        case MO1_BS:
         case CTRL_BS:
             if (get_oneshot_locked_mods()) {
                 clear_oneshot_mods();
@@ -276,6 +289,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case OSM_SFT:
             shift_physically_pressing = record->event.pressed;
             break;
+        case MO2_OSS:
+            if (!record->event.pressed && last_pressed_keycode == MO2_OSS && timer_elapsed(last_pressed_timer) < TAPPING_TERM) {
+                add_oneshot_mods(MOD_LSFT);
+            }
     }
 
     return true;
