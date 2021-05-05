@@ -46,14 +46,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifdef MOUSEKEY_ENABLE
-    #define MK_KINETIC_SPEED
-    #define MOUSEKEY_DELAY 8
-    #define MOUSEKEY_INTERVAL 10
-    #define MOUSEKEY_MOVE_DELTA 1
-    #define MOUSEKEY_INITIAL_SPEED 1
-    #define MOUSEKEY_BASE_SPEED 100
-    #define MOUSEKEY_DECELERATED_SPEED 400
-    #define MOUSEKEY_ACCELERATED_SPEED 3000
+    #define MK_COMBINED
+    #define MOUSEKEY_DELAY 0
+    #define MOUSEKEY_INTERVAL 16
+    #define MOUSEKEY_MOVE_DELTA 5
+    #define MOUSEKEY_MAX_SPEED 2
+    #define MOUSEKEY_TIME_TO_MAX 20
+    #define MOUSEKEY_WHEEL_DELAY 0
+    #define MOUSEKEY_WHEEL_INTERVAL 100
+    #define MOUSEKEY_WHEEL_MAX_SPEED 8
+    #define MOUSEKEY_WHEEL_TIME_TO_MAX 40
 #endif
 
 #define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
