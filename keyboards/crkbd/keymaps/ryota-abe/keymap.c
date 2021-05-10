@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define OSM_SFT OSM(MOD_LSFT)
 #define ALT_ESC RALT_T(KC_ESC)
 #define CTRL_BS LCTL_T(KC_BSPC)
-#define MO1_BS LT(1, KC_BSPC)
-#define MO2_OSS MO(2)
+#define MO1_SPC LT(1, KC_SPC)
+#define MO2_ENT LT(2, KC_ENT)
 #define MO3_EISU LT(3, KC_LANG2)
 #define MO3_KANA LT(3, KC_LANG1)
 #define PREVTAB C(KC_PGUP)
@@ -41,23 +41,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_MINS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CTRL_BS,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       OSM_SFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_UNDS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,  KC_SPC,  MO1_BS,    MO2_OSS,  KC_ENT, ALT_ESC
+                                          KC_LGUI, MO1_SPC, CTRL_BS,    OSM_SFT, MO2_ENT, ALT_ESC
                                       //`--------------------------'  `--------------------------'
   ),
 
   [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, KC_VOLU, KC_BRIU, XXXXXXX, KC_WH_U, XXXXXXX,                      DM_PLY1, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DM_REC1,
+       KC_TAB, KC_VOLU, XXXXXXX, KC_MS_U, XXXXXXX, KC_BRIU,                      KC_ACL0, KC_BTN1, KC_BTN2, XXXXXXX, XXXXXXX, DM_REC1,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_VOLD, KC_BRID, KC_WH_L, KC_WH_D, KC_WH_R,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_MS_U, XXXXXXX,
+      _______, KC_VOLD, KC_MS_L, KC_MS_D, KC_MS_R, KC_BRID,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, DM_PLY1,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, KC_ACL0, KC_BTN1, KC_BTN2,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,   MO3_KANA, _______, _______
+                                          _______, _______, _______,   _______, MO3_KANA, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,                      KC_COMM,  KC_DOT, KC_LCBR, KC_RCBR, KC_BSLS, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______,MO3_EISU,    _______, _______, _______
+                                          _______, MO3_EISU,_______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -277,8 +277,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
         case KC_ESC:
+        case ALT_ESC:
         case KC_BSPC:
-        case MO1_BS:
         case CTRL_BS:
             if (get_oneshot_locked_mods()) {
                 clear_oneshot_mods();
@@ -289,10 +289,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case OSM_SFT:
             shift_physically_pressing = record->event.pressed;
             break;
-        case MO2_OSS:
-            if (!record->event.pressed && last_pressed_keycode == MO2_OSS && timer_elapsed(last_pressed_timer) < TAPPING_TERM) {
-                add_oneshot_mods(MOD_LSFT);
-            }
     }
 
     return true;
